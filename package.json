@@ -1,0 +1,38 @@
+{
+  "name": "market-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "start:migrate": "prisma migrate deploy && node dist/index.js",
+    "migrate": "prisma generate && prisma migrate deploy",
+    "seed": "ts-node prisma/seed.ts",
+    "dev": "nodemon",
+    "build": "tsc",
+    "lint": "eslint 'src/**/*.ts'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.9.4",
+    "@apollo/subgraph": "^2.5.5",
+    "@prisma/client": "5.4.1",
+    "dotenv": "^16.3.1",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^3.22.4",
+    "prisma": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/node": "^20.8.2",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "eslint": "^8.50.0",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.2.2"
+  }
+}

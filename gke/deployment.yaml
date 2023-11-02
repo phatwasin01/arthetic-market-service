@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: market-app
+spec:
+  selector:
+    matchLabels:
+      app: market-app
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: market-app
+    spec:
+      containers:
+      - name: market-app
+        image: asia-southeast1-docker.pkg.dev/arthetic/arthetic-images/market-svc:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 4000
+        env:
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: market-secret
+                key: database_url
+          - name: PORT
+            value: "4000"
+
