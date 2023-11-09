@@ -24,13 +24,13 @@ const typeDefs = gql`
   }
   type User @key(fields: "id") @shareable {
     id: ID!
-    products: [Product]
+    products: [Product!]!
   }
   type Query {
-    discoverGlobalProducts: [Product]
+    discoverGlobalProducts: [Product!]!
     product(id: ID!): Product
     Categories: [Category]
-    productsByCategory(id: ID!): [Product]
+    productsByCategory(id: ID!): [Product!]!
   }
   type Mutation {
     createProduct(

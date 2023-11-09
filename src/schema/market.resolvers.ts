@@ -22,6 +22,20 @@ const resolvers: GraphQLResolverMap<AuthContext> = {
       return category;
     },
   },
+  User: {
+    products: async (parent: { id: string }) => {
+      const { id } = parent;
+      const products = await prisma.product.findMany({
+        where: {
+          userId: id,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+      return products;
+    },
+  },
   Query: {
     discoverGlobalProducts: async () => {
       const products = await prisma.product.findMany({
