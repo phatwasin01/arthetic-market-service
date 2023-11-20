@@ -84,6 +84,18 @@ const resolvers: GraphQLResolverMap<AuthContext> = {
       });
       return products;
     },
+    myProducts: async (parent: unknown, args: unknown, context) => {
+      const userId = checkAuthContextThrowError(context);
+      const products = await prisma.product.findMany({
+        where: {
+          userId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+      return products;
+    },
   },
   Mutation: {
     createProduct: async (
@@ -152,6 +164,39 @@ const resolvers: GraphQLResolverMap<AuthContext> = {
       });
       return productUpdated;
     },
+    unDeleteProduct: async (parent: unknown, args: { id: string }, context) => {
+      const userId = checkAuthContextThrowError(context);
+      const productId = args.id;
+      const product = await prisma.product.findUnique({
+        where: {
+          id: productId,
+        },
+      });
+      if (!product) {
+        throw new GraphQLError("Product not found", {
+          extensions: {
+            code: "NOT_FOUND",
+          },
+        });
+      }
+      if (product.userId !== userId) {
+        throw new GraphQLError("Unauthorized", {
+          extensions: {
+            code: "UNAUTHORIZED",
+          },
+        });
+      }
+      const productUpdated = await prisma.product.update({
+        where: {
+          id: productId,
+        },
+        data: {
+          isDeleted: false,
+        },
+      });
+      return productUpdated;
+    },
+
     updateProduct: async (
       parent: unknown,
       args: {

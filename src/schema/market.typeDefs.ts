@@ -31,6 +31,7 @@ const typeDefs = gql`
     product(id: ID!): Product
     Categories: [Category]
     productsByCategory(id: ID!): [Product!]!
+    myProducts: [Product!]!
   }
   type Mutation {
     createProduct(
@@ -41,6 +42,7 @@ const typeDefs = gql`
       categoryId: ID
     ): Product
     deleteProduct(id: ID!): Product
+    unDeleteProduct(id: ID!): Product
     updateProduct(
       id: ID!
       name: String
